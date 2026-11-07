@@ -83,3 +83,7 @@ Following a TCP stream helped me reconstruct conversations that were split acros
 The screenshots show the graded results. The packet captures would provide the exact request methods, response codes, and packet order. Server code or documentation would be needed to trace password verification, storage, and any session tokens.
 
 Training exercises by [Network Walks](https://www.networkwalks.com/).
+
+## Acknowledgments
+
+Thank you to my mentor, Waqas Karim (CCIE) (@waqaskarimccie), for your guidance throughout the Wireshark SOC labs.
