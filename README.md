@@ -1,22 +1,85 @@
 # Wireshark SOC Lab
 
-A portfolio of six completed Network Walks Wireshark SOC exercises. The labs cover port-scan analysis, TCP stream reconstruction, credential exposure, brute-force detection, and VoIP call replay. Each result screenshot shows a score of **100/100**.
+## Project Overview
 
-## Lab results
+I completed Labs 3–8 of the Network Walks Wireshark SOC Lab to practice investigating network traffic. I used packet details, TCP streams, and protocol responses to identify what happened in each exercise.
 
-| Lab | What I investigated | Evidence |
-|---|---|---|
-| 3 · Identify the Attacker’s IP | Filtered for TCP SYN packets, identified the scanning host and target, and used replies to distinguish open and closed ports. | [Lab 3 result](screenshots/lab-03.png) |
-| 4 · Follow TCP Stream | Reconstructed a chat session, identified who initiated it, and located a temporary password and a guest Wi-Fi password in the conversation. | [Lab 4 result](screenshots/lab-04.png) |
-| 5 · Follow TCP Stream, part 2 | Traced web traffic to the relevant TCP stream, identified the backup server and HTTP status code, and located a downloaded file. | [Lab 5 result](screenshots/lab-05.png) |
-| 6 · HTTP plain text credentials | Traced login traffic to the originating PC and login page, identified the request method, counted attempts, and located the username and password in packet details. | [Lab 6 result](screenshots/lab-06.png) |
-| 7 · Brute force catch | Identified the attacker, target, and account under attack. Compared failure and success response codes to locate the successful login. | [Lab 7 result](screenshots/lab-07.png) |
-| 8 · VoIP call replay | Identified call setup and voice protocols, the caller and answering party, and the audio codec. Replayed the lab call to identify exposed payment details. | [Lab 8 result](screenshots/lab-08.jpeg) |
+## Lab Components
 
-## Authentication from the network perspective
+- Wireshark for packet analysis
+- Network Walks SOC Lab exercises and lab traffic
+- Result screenshots for each completed exercise
 
-In Lab 6, the client PC sent a login request to the server over plain HTTP. Wireshark packet details revealed the submitted username and password. In Lab 7, repeated login requests produced failure responses before a successful response. Comparing the requests and replies showed which attempt succeeded. Lab 4 demonstrated a separate exposure path when someone shared passwords in a chat stream.
+## Step 1 — Identify the Attacker’s IP (Lab 3)
 
-The screenshots are completion scorecards. Packet captures would establish the exact endpoints, methods, status codes, and packet sequence. Server code or implementation docs would be needed to determine how the application verifies and stores passwords or how it issues, validates, and expires session cookies or tokens.
+1. I captured the lab traffic and filtered for TCP SYN packets.
+2. I checked the source and destination to identify the scanning host and its target.
+3. I recorded the source port and the destination ports that were probed.
+4. I compared the target’s replies to distinguish open ports from closed ports and identify the scan.
+
+**Result:** 100/100.
+
+![Lab 3 result showing 100 out of 100](screenshots/lab-03.png)
+
+## Step 2 — Follow a TCP Chat Stream (Lab 4)
+
+1. I captured the lab traffic and found the port used by the chat.
+2. I identified who started the conversation and followed the TCP stream to read it in order.
+3. I checked the stream number and size, then identified who needed help and which drive was affected.
+4. I found a temporary password and a guest Wi-Fi password in the conversation.
+
+**Result:** 100/100.
+
+![Lab 4 result showing 100 out of 100](screenshots/lab-04.png)
+
+## Step 3 — Follow a Web Traffic Stream (Lab 5)
+
+1. I captured the traffic, located the relevant pages, and followed the TCP stream.
+2. I inspected the conversation to find the hidden code word and identify the backup server.
+3. I checked the direction of the transfer and the HTTP status code.
+4. I identified the downloaded file and who made the report.
+
+**Result:** 100/100.
+
+![Lab 5 result showing 100 out of 100](screenshots/lab-05.png)
+
+## Step 4 — Inspect a Plaintext HTTP Login (Lab 6)
+
+1. I captured the login traffic and identified the HTTP request method and login page.
+2. I identified the PC that sent the requests and counted the login attempts.
+3. I inspected the login request in the packet details and found the submitted username and password.
+4. I identified HTTPS as the fix for exposing credentials in transit over plain HTTP.
+
+**Result:** 100/100.
+
+![Lab 6 result showing 100 out of 100](screenshots/lab-06.png)
+
+## Step 5 — Investigate a Brute-Force Login (Lab 7)
+
+1. I captured the lab traffic and identified the protocol, attacker, target, and username.
+2. I identified the failure response code and counted the failed login attempts.
+3. I located the success response and matched it to the attempt that worked.
+4. I used the sequence of failed attempts followed by a success to classify the attack.
+
+**Result:** 100/100.
+
+![Lab 7 result showing 100 out of 100](screenshots/lab-07.png)
+
+## Step 6 — Replay a VoIP Call (Lab 8)
+
+1. I captured the call traffic and identified the protocols used for call setup and voice.
+2. I checked the caller’s name and extension, who answered, and which audio codec the call used.
+3. I replayed the lab call and identified the payment details spoken during it.
+4. I identified the need to protect the voice stream with encryption.
+
+**Result:** 100/100.
+
+![Lab 8 result showing 100 out of 100](screenshots/lab-08.jpeg)
+
+## What I Learned
+
+Following a TCP stream helped me reconstruct conversations that were split across packets. Comparing requests and responses helped me tell a failed login from a successful one. The chat, HTTP, and VoIP exercises also showed how sensitive information can be exposed when it travels without encryption.
+
+The screenshots show the graded results. The packet captures would provide the exact request methods, response codes, and packet order. Server code or documentation would be needed to trace password verification, storage, and any session tokens.
 
 Training exercises by [Network Walks](https://www.networkwalks.com/).
